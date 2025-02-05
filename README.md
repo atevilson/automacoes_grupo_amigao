@@ -1,4 +1,4 @@
-# README - Automação Grupo Amigão
+# Automações Grupo Amigão
 
 ## Sumário Geral
 
@@ -11,13 +11,17 @@
    - [Objetivo](#objetivo2)  
    - [Como Funciona](#comofunciona2)  
    - [Observações Importantes](#observacoesimportantes2)  
+3. [Projeto 3 - Envio Rápido do Relatório de Pedidos por E-mail](#projeto3)  
+   - [Objetivo](#objetivo3)  
+   - [Como Funciona](#comofunciona3)  
+   - [Observações Importantes](#observacoesimportantes3)  
 
 ---
 
 ## **Projeto 1** - Robo Cobrança de Fornecedores sem agendamentos em centros de distribuições <a name="projeto1"></a>
 
 ### 1. Objetivo <a name="objetivo1"></a>
-O objetivo desta automação é identificar todos os pedidos ativos e sem data de agendamento (DT_AGENDA) no sistema, verificando também a classificação desses pedidos (apenas “Original” e com LOCAL_ENT = “CD”). Uma vez encontrados, são enviados e-mails de cobrança aos fornecedores responsáveis por tais pedidos.
+O objetivo desta automação é identificar todos os pedidos ativos e sem data de agendamento (DT_AGENDA) no sistema, verificando também a classificação desses pedidos (apenas “Original” e com LOCAL_ENT = “CD”). Uma vez encontrados, são enviados e-mails de cobrança aos fornecedores responsáveis por tais pedidos. O principal ganho foi a velocidade do processo de cobrança que antes era feito de forma manual via planilha Excel pelo assistente, onde era enviado e-mail um a um para cada fornecedor anexando os pedidos no corpo do e-mail. O processo, que antes levava quase 1 semana (dada a quantidade de fornecedores), agora é feito automaticamente em massa em cerca de 10 minutos, variando apenas pela velocidade da rede e do servidor de e-mail.
 
 ### 2. Tecnologias Utilizadas <a name="tecnologias-utilizadas1"></a>
 - **Python 3.7+**  
@@ -56,7 +60,7 @@ O objetivo desta automação é identificar todos os pedidos ativos e sem data d
 ## **Projeto 2** - Automação de relatório carteira de pedidos <a name="projeto2"></a>
 
 ### 1. Objetivo <a name="objetivo2"></a>
-O objetivo inicial aqui é processar diversos relatórios TXT (r1 ao r6, cancelados, pendentes etc.), consolidá-los em um único DataFrame e remover pedidos que não atendem aos critérios (cancelados, pendentes, datas de previsão muito antigas). Ao final, gera-se uma planilha `base_dashboard.xlsx` com dados filtrados e tratados. O principal ganho com essa automação foi o tempo para gera-lo com todo tratamento, antes era feito via planilha excel e devido ao grande volume de dados o tempo para conclusão do relatório era em torno de 2h, com essa automação o processo é feito em menos de 2 minutos.
+O objetivo inicial aqui é processar diversos relatórios TXT (r1 ao r6, cancelados, pendentes etc.), consolidá-los em um único DataFrame e remover pedidos que não atendem aos critérios (cancelados, pendentes, datas de previsão muito antigas). Ao final, gera-se uma planilha `base_dashboard.xlsx` com dados filtrados e tratados. O principal ganho com essa automação foi o tempo para gerá-lo com todo tratamento: antes era feito via planilha Excel e, devido ao grande volume de dados, o processo levava em torno de 2 horas. Com essa automação, conclui-se em menos de 2 minutos.
 
 ### 2. Como Funciona <a name="comofunciona2"></a>
 1. **Processamento de TXT**  
@@ -81,6 +85,31 @@ O objetivo inicial aqui é processar diversos relatórios TXT (r1 ao r6, cancela
 
 ---
 
+## **Projeto 3** - Envio Rápido do Relatório de Pedidos por E-mail <a name="projeto3"></a>
+
+### 1. Objetivo <a name="objetivo3"></a>
+O principal objetivo desta automação é **enviar rapidamente**, com apenas um clique, o relatório de compras (`PEDIDOS_COMPRA.xlsx`) a toda a equipe responsável, sem a necessidade de abrir o Outlook manualmente. Dessa forma, a produtividade aumenta e evitam-se possíveis atrasos ou falhas humanas no envio.
+
+### 2. Como Funciona <a name="comofunciona3"></a>
+1. **Carregamento de Arquivos**  
+   - Carrega o `PEDIDOS_COMPRA.xlsx` e uma imagem de assinatura (caso necessário) para inserir no corpo do e-mail.
+
+2. **Criação de E-mail Automatizado**  
+   - Utiliza `win32com.client` para inicializar o Outlook e criar a mensagem.  
+   - Define assunto, destinatários (To e CC) e corpo da mensagem em formato HTML.  
+   - Insere a assinatura em Base64 diretamente no corpo do e-mail.
+
+3. **Envio**  
+   - Faz a anexação do arquivo `PEDIDOS_COMPRA.xlsx`.  
+   - O e-mail é enviado automaticamente e, no console, é exibida a mensagem de sucesso.
+
+### 3. Observações Importantes <a name="observacoesimportantes3"></a>
+- Necessita de Outlook instalado e configurado.  
+- A imagem de assinatura deve existir no caminho configurado no script.  
+- A velocidade do envio depende da estabilidade da rede e do servidor de e-mail.
+
+---
+
 ## Desenvolvedor
 
-<sub><b>Atevilson Freitas</b> 🧑‍💻</sub>
+<sub><b>Atevilson Freitas</b> 🧑‍💻</sub>  
